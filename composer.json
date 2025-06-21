@@ -1,0 +1,23 @@
+{
+  "name": "vendor/re-progress-bar",
+  "description": "WordPress plugin re-progress_bar",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=7.4",
+    "composer/installers": "^1.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "ReProgressBar\\": "modules/"
+    }
+  },
+  "extra": {
+    "installer-name": "re-progress_bar"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  }
+}

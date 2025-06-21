@@ -1,0 +1,11 @@
+* text=auto
+
+# Tekstowe pliki z wymuszeniem LF
+*.php    text eol=lf
+*.js     text eol=lf
+*.sh     text eol=lf
+
+# Pliki binarne
+*.png    binary
+*.jpg    binary
+*.zip    binary
