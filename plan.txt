@@ -1,0 +1,177 @@
+Repozytorium Git i konfiguracja plików projektu
+ 1.1. Zainicjalizować repozytorium (git init), utworzyć główny branch „main”, dodać remote.
+ 1.2. Przygotować plik .gitignore wykluczający: /vendor/, /node_modules/, /build/, pliki IDE.
+ 1.3. Utworzyć .gitattributes z regułami EOL i binarnych atrybutów.
+ 1.4. Utworzyć .editorconfig definiujący wcięcia, encoding, końce linii.
+ 1.5. Wygenerować composer.json z autoload PSR-4, dodać początkowe zależności PHP.
+ 1.6. Wygenerować package.json z podstawowymi skryptami build i dev, dodać devDependencies: webpack, Babel, ESLint, Jest.
+ 1.7. Utworzyć plik phpcs.xml.dist dla PSR-12, zdefiniować katalogi do lintingu.
+ 1.8. Utworzyć phpunit.xml.dist wskazujący folder testów PHP, bootstrap testów.
+ 1.9. Utworzyć eslint.config.js z regułami ES6+ i środowiskiem browser.
+ 1.10. Utworzyć webpack.config.js z entry pointem dla JS/CSS, loaderami Babel i style-loader/css-loader; przygotować tryby development i production.
+ 1.11. Dodać plik README.md z opisem struktury, standardów commitów, procesu PR.
+ 1.12. Skonfigurować branch protection rules i CI (linting, testy) w GitHub Actions.
+Główny plik wtyczki re-progress_bar.php
+ 2.1. Umieścić nagłówek WordPress z nazwą, wersją, tekst-domeną i linkiem do dokumentacji.
+ 2.2. Zdefiniować stałe: ścieżka wtyczki, URL assets, Text Domain.
+ 2.3. Załadować autoloader Composera (vendor/autoload.php), fallbackowy autoloader w includes/autoload.php.
+ 2.4. Zarejestrować akcje aktywacji, dezaktywacji i uninstall, kierujące do odpowiednich klas (clean-up opcji, transients).
+ 2.5. Wywołać klasę Bootstrap::run(), która zainicjuje wszystkie moduły.
+ 2.6. Udokumentować w headerze wszelkie hooki, filtry i API wtyczki.
+Moduł Progress Tracker
+ 3.1. Utworzyć katalog modules/progress-tracker/, z plikami:
+ • ProgressTracker.php – deklaracja namespace, metody init(), injectProgressBar(), renderShortcode().
+ • Settings.php – rejestracja sekcji i pól w Settings API.
+ • index.php – zabezpieczenie przed bezpośrednim dostępem.
+ 3.2. Zarejestrować w init():
+ • Hook wp_enqueue_scripts do załadowania JS i CSS modułu.
+ • Filter the_content do wstrzyknięcia paska.
+ • Shortcode reading_progress do ręcznego wstawiania.
+ 3.3. Przygotować strukturę assets:
+ • assets/js/progress-bar.js – obsługa scrolla, obliczanie procentu, aktualizacja paska.
+ • assets/css/progress-bar.css – style bazowe paska, klasy pomocnicze.
+ 3.4. Przygotować szablon templates/progress-bar-template.php z placeholderem dla parametrów (wysokość, kolor).
+ 3.5. Dodać dokumentację metody get_progress_data() zwracającej dane JS/PHP.
+ 3.6. Rozbudować w przyszłości o:
+ • Wykrywanie i pomijanie elementów po selektorach CSS.
+ • Wyświetlanie etykiety z wartością procentową.
+ • Integrację z observerami Core Web Vitals.
+Ustawienia modułu Progress Tracker
+ 4.1. W Settings.php zarejestrować na wspólnej stronie:
+ • Sekcję „Pasek postępu”.
+ • Pole wyboru pozycji (góra, dół).
+ • Pole liczby wysokości paska.
+ • Pole koloru tła i koloru wypełnienia.
+ 4.2. Zdefiniować nazwy opcji w bazie (repb_progress_position, repb_progress_color, repb_progress_height).
+ 4.3. Określić domyślne wartości i zakresy akceptowalnych danych.
+ 4.4. Określić funkcje sanitizacji (sanitize_text_field, absint, sanitize_hex_color).
+ 4.5. Dodać opisy pól (opis celów, przykłady użycia).
+ 4.6. Zaplanować rozszerzenie:
+ • Pole selektorów CSS do wykluczenia.
+ • Checkbox „Pokaż etykietę procentową”.
+ • Dynamiczne podglądy zmian stylu w panelu (JS live preview).
+Moduł Popup
+5.1. Utworzyć katalog modules/popup/ z następującymi plikami:
+• Popup.php – klasa logiki modułu
+• Settings.php – rejestracja opcji w Settings API
+• index.php – zabezpieczenie przed bezpośrednim dostępem
+• templates/popup-template.php – szablon HTML pop-upu
+• assets/js/popup.js – skrypt wyzwalający i obsługujący popup
+• assets/css/popup.css – podstawowe style pop-upu struktura
+5.2. W Popup.php zaimplementować:
+• metodę init() podpinającą hooki:
+– wp_enqueue_scripts do rejestracji JS/CSS
+– init do rejestracji shortcode/bloku/widgetu
+• metodę registerTriggers() definiującą logikę uruchamiania popupu według wyzwalaczy:
+– osiągnięcie % progresu czytania
+– czas na stronie > 60 s
+– zmiana kierunku scrolla (w dół po powrocie) Dawid Specka progress b…
+• metodę renderPopup() wstrzykującą do DOM wygenerowany szablon
+5.3. W Settings.php zarejestrować w sekcji „Popup” pola:
+• trigger_percentage (number)
+• time_delay (number, sekundy)
+• scroll_direction (checkbox)
+• popup_content (WYSIWYG)
+• opcje stylów (kolor, width/height) Dawid Specka progress b…
+5.4. W popup-template.php umieścić markup z placeholderami:
+• tytuł i treść pop-upu
+• kontener na dynamiczne rekomendacje
+• atrybuty ARIA i role dialogu
+5.5. W popup.js:
+• enqueue w footerze (in_footer=true)
+• wyzwalacze:
+– IntersectionObserver dla % progresu
+– setTimeout dla opóźnienia czasowego
+– scroll + porównanie scrollY dla kierunku
+• po wywołaniu ładować szablon i wstrzykiwać go pod <body>
+5.6. Zarejestrować w module Integrations:
+• shortcode reading_popup
+• blok Gutenberg (register_block_type)
+• widget Elementor
+• shortcode WP Bakery plan
+5.7. Napisać testy:
+• tests/php/test-popup.php (PHPUnit) – sprawdzenie rejestracji hooków i logiki triggerów
+• tests/js/popup.test.js (Jest) – symulacja wejścia w próg % i opóźnienia
+5.8. Udokumentować w nagłówku głównego pliku wtyczki:
+• hooki i filtry exposowane przez klasę Popup
+• opis shortcode/bloku/widgetu
+5.9. (Opcjonalnie) włączyć lazy-loading dla zasobów pop-upu poprzez dynamiczny import w JS.
+6. Moduł Recommendations
+ 6.1. Utworzyć katalog modules/recommendations/ z plikami:
+ • Recommendations.php
+ • Settings.php
+ • index.php (bezpieczeństwo ładowania)
+ • podkatalog templates/ z recommendations-template.php
+ • podkatalog assets/js/ z recommendations.js
+ • podkatalog assets/css/ z recommendations.css
+ 6.2. W klasie Recommendations::init() zarejestrować:
+ • hook add_filter('the_content', [self::class, 'appendRecommendations'])
+ • hook add_action('wp_enqueue_scripts', [Assets::class, 'registerFrontAssets'])
+ 6.3. W Settings.php zarejestrować sekcję „Rekomendacje” i pola:
+ • tryb działania: automatyczny/ręczny
+ • liczba pozycji (pole liczby)
+ • lista ręcznie wybranych ID postów (multi-select)
+ • cache: włącz/wyłącz + czas życia (minuty)
+ 6.4. Przygotować szablon recommendations-template.php:
+ • pętla przez zwrócone propozycje, generująca listę linków z danymi (tytuł, miniaturka)
+ • możliwość nadpisania przez filtr apply_filters('repb_recommendation_item', $itemHtml, $item)
+ 6.5. W recommendations.js i recommendations.css:
+ • JS: lazy-loading obrazów, ewentualne eventy kliknięć (analityka)
+ • CSS: układ listy/kafelków, klasy stanu ładowania
+ 6.6. Metoda getRecommendations($postId, $args) w Recommendations.php:
+ • budowa zapytania WP_Query według ustawień (popularność, tagi, data)
+ • odrzucenie bieżącego wpisu
+ • cache’owanie wyników w transients lub Redis (rozbudowa)
+ 6.7. Sanitizować wszystkie ustawienia w funkcjach sanitize_callback:
+ • absint dla liczb, sanitize_text_field dla tekstów, wp_parse_id_list dla list ID
+ 6.8. Rozbudowa:
+ • wagi kryteriów (slider w Settings)
+ • integracja z zewnętrznym API (przeniesienie zapytań poza WP_Query)
+ • implementacja Redis/Memcached do cache
+7 Moduł Integrations
+ 7.1. Utworzyć modules/integrations/Integrations.php i zabezpieczający index.php
+ 7.2. W metodzie Integrations::init() zarejestrować:
+ • shortcode’y dla każdej funkcji (reading_progress, reading_popup, reading_recommendations)
+ • hook add_action('init', [self::class, 'registerGutenbergBlock'])
+ • hook add_action('elementor/widgets/widgets_registered', [self::class, 'registerElementorWidgets'])
+ • hook add_action('vc_before_init', [self::class, 'registerWpBakeryShortcodes'])
+ 7.3. W registerGutenbergBlock():
+ • wywołanie register_block_type() z odniesieniem do skryptów i callbacków renderujących z klas modułów
+ 7.4. W registerElementorWidgets():
+ • iteracja po klasach widgetów (ProgressTrackerWidget, PopupWidget, RecommendationsWidget)
+ • rejestracja w \Elementor\Plugin::instance()->widgets_manager->register_widget_type()
+ 7.5. W registerWpBakeryShortcodes():
+ • wywołanie vc_map() dla każdego shortcode, z parametrami odpowiadającymi ustawieniom modułów
+ 7.6. Rozbudowa:
+ • dodanie wsparcia dla Dynamic Tags w Elementor (metoda register_dynamic_tags())
+ • integracja z innymi page builderami (Beaver Builder, Divi) poprzez analogiczne hooki
+ • udostępnienie filtrów apply_filters('repb_pagebuilder_attributes', $atts, $context)
+8 Moduł Settings Centralne
+ 	8.1. Utworzyć stronę ustawień w add_options_page z slugiem re_progress_bar_settings
+ 	8.2. W metodzie SettingsCentral::init() połączyć wszystkie modułowe Settings::register() pod wspólnym menu
+ 	8.3. Zarejestrować sekcje odpowiadające modułom: „Pasek postępu”, „Popup”, „Rekomendacje”, „Integracje”
+ 	8.4. Zapewnić globalny import/eksport ustawień (przycisk export JSON, import z walidacją)
+ 	8.5. Dodać opcjonalne pola: dodatkowy CSS, live preview zmian, reset do wartości domyślnych
+ 	8.6. Zadbać o sanitizację i poprawne opisy w UI, uzyskać zgodność z WP Accessibility
+9 Moduł I18n
+ 	9.1. Utworzyć katalog languages/ z szablonem .pot wygenerowanym przez wp i18n make-pot
+ 	9.2. W klasie I18n zainicjować load_plugin_textdomain w hooku plugins_loaded
+ 	9.3. Oznaczyć wszystkie komunikaty w kodzie funkcjami __(), _e() i esc_html__()
+ 	9.4. Dodać przykładowe pliki pl_PL.po i pl_PL.mo
+ 	9.5. Zaplanować mechanizm automatycznej aktualizacji plików tłumaczeń przez GlotPress lub 	Weblate
+Testy podstawowe
+ 10.1. Skonfigurować PHPUnit (środowisko WP Testbench) i napisać bootstrap testów PHP
+ 10.2. Przygotować zestaw testów jednostkowych dla klas: ProgressTracker, Popup, Recommendations, Integrations, Settings
+ 10.3. Skonfigurować Jest i napisać testy logiczne dla plików JS: obliczanie procentu, wyzwalacze popup, lazy loading rekomendacji
+ 10.4. Dodać testy e2e (Cypress) – podstawowe scenariusze: render paska, wyzwolenie popup, wyświetlenie rekomendacji
+ 10.5. Zaktualizować skrypty w composer.json i package.json (test:php, test:js, test:e2e)
+ 10.6. Zintegrować uruchamianie testów z CI (GitHub Actions): linting, build, testy PHP, JS, e2e
+Dokumentacja i pakowanie
+ 11.1. Przygotować README.md dla GitHub: opis projektu, wymagania, instalacja, użycie, FAQ
+ 11.2. Uzupełnić readme.txt dla WordPress.org: meta, instrukcja instalacji, Upgrade Notice
+ 11.3. Prowadzić changelog zgodny ze standardem „Keep a Changelog” w pliku CHANGELOG.md
+ 11.4. Skonfigurować w CI budowanie produkcyjnych assetów (npm run build) i generowanie ZIP dystrybucyjnego
+ 11.5. Oznaczyć wydania tagami semantycznymi (v1.0.0, v1.1.0) i publikować na GitHub Releases
+
+
+

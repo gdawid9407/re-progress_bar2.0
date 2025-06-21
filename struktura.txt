@@ -1,0 +1,138 @@
+re-progress_bar/
+├── re-progress_bar.php                # główny-bootstrap
+├── uninstall.php                      # czyste-odinstalowanie
+├── composer.json                      # composer-konfiguracja
+├── composer.lock                      # zależności-lock
+├── vendor/                            # composer-vendor
+│   └── autoload.php                   # autoloader-composer
+│
+├── package.json                       # npm-konfiguracja
+├── package-lock.json                  # npm-lock
+├── .babelrc                           # babel-preset
+├── babel.config.js                    # babel-config
+├── webpack.config.js                  # webpack-bundler
+├── jest.config.js                     # jest-konfig
+├── eslint.config.js                   # eslint-reguły
+│
+├── .gitignore                         # git-ignoruj
+├── .gitattributes                     # git-atrybuty
+├── .editorconfig                      # edytor-style
+├── phpcs.xml.dist                     # phpcs-reguły
+├── phpunit.xml.dist                   # phpunit-reguły
+│
+├── README.md                          # repo-opis
+├── readme.txt                         # wporg-meta
+├── license.txt                        # licencja-plik
+│
+├── .github/                           # ci-konfiguracja
+│   └── workflows/
+│       └── ci.yml                     # github-actions
+│
+├── build/                             # produkcyjne-asset
+│   ├── assets.min.js                  # skrypt-zminifikowany
+│   └── assets.min.css                 # styl-zminifikowany
+│
+├── languages/
+│   ├── re-progress_bar.pot            # szablon-tłumaczeń
+│   ├── pl_PL.po                       # polski-tekst
+│   └── pl_PL.mo                       # polski-binary
+│
+├── modules/                           # moduły-funkcyjne
+│   ├── Bootstrap.php                  # moduły-loader
+│   ├── Assets.php                     # asset-enqueue
+│   ├── SettingsCentral.php            # centralne-ustawienia
+│
+│   ├── progress-tracker/
+│   │   ├── ProgressTracker.php        # pasek-logika
+│   │   ├── Settings.php               # pasek-opcje
+│   │   ├── index.php                  # dostęp-blokada
+│   │   ├── templates/
+│   │   │   ├── progress-bar-template.php # pasek-szablon
+│   │   │   └── index.php              # dostęp-blokada
+│   │   └── assets/
+│   │       ├── js/
+│   │       │   ├── progress-bar.js    # pasek-skrypt
+│   │       │   └── index.js           # dostęp-blokada
+│   │       ├── css/
+│   │       │   ├── progress-bar.css   # pasek-styl
+│   │       │   └── index.php          # dostęp-blokada
+│   │       └── index.php              # dostęp-blokada
+│
+│   ├── popup/
+│   │   ├── Popup.php                  # popup-logika
+│   │   ├── Settings.php               # popup-opcje
+│   │   ├── index.php                  # dostęp-blokada
+│   │   ├── templates/
+│   │   │   ├── popup-template.php     # popup-szablon
+│   │   │   └── index.php              # dostęp-blokada
+│   │   └── assets/
+│   │       ├── js/
+│   │       │   ├── popup.js           # popup-skrypt
+│   │       │   └── index.js           # dostęp-blokada
+│   │       ├── css/
+│   │       │   ├── popup.css          # popup-styl
+│   │       │   └── index.php          # dostęp-blokada
+│   │       └── index.php              # dostęp-blokada
+│
+│   ├── recommendations/
+│   │   ├── Recommendations.php        # rekomend-logika
+│   │   ├── Settings.php               # rekomend-opcje
+│   │   ├── index.php                  # dostęp-blokada
+│   │   ├── templates/
+│   │   │   ├── recommendations-template.php # rekomend-szablon
+│   │   │   └── index.php              # dostęp-blokada
+│   │   └── assets/
+│   │       ├── js/
+│   │       │   ├── recommendations.js # rekomend-skrypt
+│   │       │   └── index.js           # dostęp-blokada
+│   │       ├── css/
+│   │       │   ├── recommendations.css # rekomend-styl
+│   │       │   └── index.php          # dostęp-blokada
+│   │       └── index.php              # dostęp-blokada
+│
+│   ├── integrations/
+│   │   ├── Integrations.php           # integracje-hub
+│   │   ├── index.php                  # dostęp-blokada
+│   │   ├── elementor/
+│   │   │   └── class-elementor-widget.php # elementor-widget
+│   │   ├── wpbakery/
+│   │   │   └── class-wpbakery-shortcode.php # wpbakery-shortcode
+│   │   └── gutenberg/
+│   │       ├── block.json             # blok-meta
+│   │       ├── index.js               # blok-skrypt
+│   │       ├── editor.css             # blok-editor
+│   │       └── style.css              # blok-styl
+│
+│   ├── api/
+│   │   ├── namespace.php              # api-namespace
+│   │   ├── class-rest-controller.php  # rest-trasy
+│   │   └── index.php                  # dostęp-blokada
+│
+│   └── i18n/
+│       ├── I18n.php                   # tłumaczenia-loader
+│       └── index.php                  # dostęp-blokada
+│
+├── assets/                            # globalne-zasoby
+│   ├── css/style.css                  # global-styl
+│   ├── js/index.js                    # global-skrypt
+│   └── index.php                      # dostęp-blokada
+│
+├── tests/
+│   ├── php/
+│   │   ├── bootstrap.php              # testy-bootstrap
+│   │   ├── test-progress-tracker.php  # pasek-testy
+│   │   ├── test-popup.php             # popup-testy
+│   │   ├── test-recommendations.php   # rekomend-testy
+│   │   ├── test-integrations.php      # integracje-testy
+│   │   └── test-api.php               # api-testy
+│   ├── js/
+│   │   ├── progress-tracker.test.js   # pasek-jest
+│   │   ├── popup.test.js              # popup-jest
+│   │   ├── recommendations.test.js    # rekomend-jest
+│   │   └── integrations.test.js       # integracje-jest
+│   └── e2e/
+│       └── cypress.spec.js            # e2e-scenariusz
+│
+└── docs/
+    ├── architecture.md                # architektura-opis
+    └── usage.md                       # użycie-przykłady
