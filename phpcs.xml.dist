@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="re-progress_bar PSR-12">
+    <!-- Definicja standardu PSR-12 -->
+    <rule ref="PSR12"/>
+
+    <!-- Wykluczenie katalogów niepodlegających lintingowi -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/build/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+
+    <!-- Katalogi i pliki do sprawdzenia -->
+    <file>re-progress_bar.php</file>                <!-- główny bootstrap -->
+    <directory>modules</directory>                  <!-- logika modułów -->
+    <directory>assets/js</directory>                <!-- skrypty front-end -->
+    <directory>assets/css</directory>               <!-- style front-end -->
+</ruleset>
