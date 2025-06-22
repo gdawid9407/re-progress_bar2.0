@@ -42,7 +42,7 @@ re-progress_bar/
 │   ├── Assets.php                     # asset-enqueue
 │   ├── SettingsCentral.php            # centralne-ustawienia
 │
-│   ├── progress-tracker/
+│   ├── ProgressTracker/
 │   │   ├── ProgressTracker.php        # pasek-logika
 │   │   ├── Settings.php               # pasek-opcje
 │   │   ├── index.php                  # dostęp-blokada
